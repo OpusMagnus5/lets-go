@@ -12,11 +12,12 @@ package main
 */
 
 import (
-    "fmt"
-    "math"   
+	"fmt"
+	"lets-go/basics"
+	"math"
 )
 
-/* 
+/*
  Można pisać każdy import w osobnej linii, ale przyjętą konwencją jest importowanie wielu pakietów w jednym imporcie.
 */
 
@@ -30,4 +31,6 @@ func main() {
     */
     //fmt.Println(math.pi)
     fmt.Println(math.Pi)
+
+    basics.Test()
 }
