@@ -34,4 +34,5 @@ func main() {
 
     basics.TestFunctions()
     basics.TestVariables()
+    basics.TestFlowControl()
 }
