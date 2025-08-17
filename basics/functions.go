@@ -41,8 +41,8 @@ func split(sum int) (x, y int) { // tu jest deklaracja zmiennych a w funkcji są
 	return
 }
 
-func Test() {
-	fmt.Println("--functions---------------------------------------")
+func TestFunctions() {
+	fmt.Println("--functions------------------------------------------------------------------------------------------")
 	fmt.Println("add: ", add(42, 13))
 	fmt.Println("add2: ", add2(42, 13))
 
