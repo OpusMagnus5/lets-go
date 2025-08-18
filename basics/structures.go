@@ -67,4 +67,17 @@ func structs() {
 	fmt.Println("Struktura literalna: ", v1, v2, v3, vp)
 }
 
+/*
+ Typ [n]T jest tablicą która zawiera n wartości typu T.
+ Długość tablicy jest częścią jej typu, tak więc rozmiar tablicy nie może być zmieniany.
+*/
+func arrays() {
+	var a [2]string
+	a[0] = "Hello"
+	a[1] = "World"
+	fmt.Println(a[0], a[1])
+	fmt.Println(a)
 
+	primes := [6]int{2, 3, 5, 7, 11, 13}
+	fmt.Println(primes)
+}
