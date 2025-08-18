@@ -22,17 +22,18 @@ import (
 */
 
 func main() {
-    fmt.Printf("Teraz masz %g problemów.\n", math.Sqrt(7))
+	fmt.Printf("Teraz masz %g problemów.\n", math.Sqrt(7))
 
-    /* 
-     W Go nazwa jest eksportowana, gdy zaczyna się od dużej litery. 
-     pi nie zaczynają się od dużej litery, więc nie są eksportowane.
-     Wszystkie „nieeksportowane” nazwy nie są dostępne poza pakietem w którym zostały zdefiniowane.
-    */
-    //fmt.Println(math.pi)
-    fmt.Println(math.Pi)
+	/*
+	   W Go nazwa jest eksportowana, gdy zaczyna się od dużej litery.
+	   pi nie zaczynają się od dużej litery, więc nie są eksportowane.
+	   Wszystkie „nieeksportowane” nazwy nie są dostępne poza pakietem w którym zostały zdefiniowane.
+	*/
+	//fmt.Println(math.pi)
+	fmt.Println(math.Pi)
 
-    basics.TestFunctions()
-    basics.TestVariables()
-    basics.TestFlowControl()
+	basics.TestFunctions()
+	basics.TestVariables()
+	basics.TestFlowControl()
+	basics.TestStructures()
 }
