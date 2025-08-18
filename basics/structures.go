@@ -12,6 +12,7 @@ func TestStructures() {
 	arrays()
 	slices()
 	ranges()
+	maps()
 }
 
 /*
@@ -248,6 +249,36 @@ func ranges() {
 	for i, v := range pow {
 		fmt.Printf("2**%d = %d\n", i, v)
 	}
+}
+
+/*
+Mapa przyporządkowuje kluczom odpowiednie wartości.
+Wartość zerowa mapy to nil. Mapa nil nie posiada kluczy i żaden klucz nie może być do niej dodany.
+Funkcja make zwraca mapę danego typu, zaincjalizowaną i gotową do użytku.
+*/
+func maps() {
+	m := make(map[string]int)
+	m["foo"] = 1
+	fmt.Println("Mapa m: ", m)
+
+	/*
+	Mapy literalne (ang. map literals)
+	Mapy literalne są podobne do struktur literalnych, ale podanie kluczy jest konieczne.
+	*/
+	m2 := map[string]int{
+		"foo": 1, 
+		"bar": 2,
+	}
+	fmt.Println("Mapa m2: ", m2)
+
+	elem := m2["foo"] // pobranie wartości z mapy
+	fmt.Println("Wartość elem: ", elem)
+
+	delete(m2, "foo") // usunięcie elementu z mapy
+	fmt.Println("Mapa m po usunięciu: ", m)
+
+	elem, ok := m2["foo"] // Sprawdzenie czy mapa zawiera dany klucz
+	fmt.Println("Czy mapa m2 zawiera klucz 'foo'? ", ok)
 }
 
 func printSlice(s []int) {
