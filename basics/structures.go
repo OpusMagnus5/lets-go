@@ -11,6 +11,7 @@ func TestStructures() {
 	structs()
 	arrays()
 	slices()
+	ranges()
 }
 
 /*
@@ -226,6 +227,27 @@ func slices() {
 	// Możemy dodać więcej niż jeden element w danym czasie.
 	s5 = append(s5, 2, 3, 4)
 	printSlice(s5)
+}
+
+
+/*
+Zakres (ang. range)
+Słowo kluczowe range używane w pętli for pozwala nam iterować po wycinku (ang. slice) lub mapie (ang. map).
+Gdy iterujemy po zakresie wycinka, w każdym kroku są zwracane dwie wartości. 
+Pierwszą jest indeks elementu wycinka, a drugą jest kopia elementu o tym indeksie.
+
+Można pominąć indeks lub wartość elementu poprzez przypisanie ich do _.
+for i, _ := range pow
+for _, value := range pow
+
+Jeśli chcemy otrzymać tylko indeks, możesz zupełnie pominąć wartość elementu.
+for i := range pow
+*/
+func ranges() {
+	var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+	for i, v := range pow {
+		fmt.Printf("2**%d = %d\n", i, v)
+	}
 }
 
 func printSlice(s []int) {
