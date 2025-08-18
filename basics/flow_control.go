@@ -1,6 +1,6 @@
 package basics
 
-import(
+import (
 	"fmt"
 	"math"
 	"runtime"
@@ -10,7 +10,7 @@ import(
 func TestFlowControl() {
 	fmt.Println("--flow_control---------------------------------------------------------------------------------------")
 
-	/* 
+	/*
 	 Go posiada tylko jeden typ pętli, jest nią pętla for.
 	*/
 	sum := 0
@@ -20,7 +20,7 @@ func TestFlowControl() {
 	fmt.Println("Sum of 0 to 9: ", sum)
 
 	// Inicjalizacja oraz inkrementacja są opcjonalne.
-	for ; sum < 1000; {
+	for sum < 1000 {
 		sum += sum
 	}
 
@@ -39,7 +39,7 @@ func TestFlowControl() {
 		fmt.Println("Sum is positive: ", sum)
 	}
 
-	/* 
+	/*
 	 Instrukcja if może rozpoczynać się krótką instrukcją umieszczoną tuż przed warunkiem boolowskim.
 	 Zmienne zadeklarowane poprzez tą instrukcje są dostępne tylko do końca instrukcji if.
 	 Zmienne zadeklarowane w środku krótkiej instrukcji if są również dostępne w środku każdego bloku else.
@@ -62,20 +62,20 @@ func TestFlowControl() {
 func Sqrt(x float64) float64 {
 	z := x / 2
 	for i := 0; i < 10; i++ {
-		newZ := z - (z * z - x) / (2 * z)
+		newZ := z - (z*z-x)/(2*z)
 		if newZ == z || math.Abs(newZ-z) < 1e-6 {
-			println("Iteration: ", i, " z: ", z)
+			fmt.Println("Iteration: ", i, " z: ", z)
 			return z
 		}
 		z = newZ
-		println("Iteration: ", i, " z: ", z)
+		fmt.Println("Iteration: ", i, " z: ", z)
 	}
 
 	return z
 }
 
 func checkOS() {
-	/* 
+	/*
 	 Wykonuje pierwszy przypadek dla którego wartość jego warunku jest równa wyrażaniu warunkowemu.
 	*/
 	fmt.Print("Go runs on ")
@@ -90,7 +90,7 @@ func checkOS() {
 }
 
 func checkTime() {
-	/* 
+	/*
 	 Switch bez głównego warunku jest tym samym co switch true.
 	 Ta konstrukcja może być bardziej przejrzystym sposobem na zapisanie długiego ciągu if-then-else.
 	*/
@@ -106,17 +106,17 @@ func checkTime() {
 }
 
 func testDefer() {
-	/* 
+	/*
 	 Instrukcja defer opóźnia wykonanie funkcji do momentu gdy funkcja w której się znajduje nie zwróci wyniku.
 	 Wywołane argumenty w defer są ewaluowane natychmiastowo, jednak sama funkcja jest wywołana dopiero gdy otaczająca ją funkcja zwróci wynik.
 	*/
-	defer fmt.Printf(" World")
+	defer fmt.Println("World Ups...")
 	fmt.Printf("Hello")
-	fmt.Printf(" Defer")
+	fmt.Printf(" Defer\n")
 
-	/* 
+	/*
 	 Funkcje wywołane z instrukcją defer są umieszczane na stosie
-	 Po tym jak główna funkcja zwróci wynik, funkcje wywołane wewnątrz niej z instrukcją defer z są wykonywane w kolejności 
+	 Po tym jak główna funkcja zwróci wynik, funkcje wywołane wewnątrz niej z instrukcją defer z są wykonywane w kolejności
 	 od ostatniej do pierwszej z nich która została umieszczona na stosie
 	*/
 	fmt.Println("liczę")
