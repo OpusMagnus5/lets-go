@@ -37,4 +37,5 @@ func main() {
 	basics.TestFlowControl()
 	basics.TestStructures()
 	basics.TestMethodsAndInterfaces()
+	basics.TestGenerics()
 }
