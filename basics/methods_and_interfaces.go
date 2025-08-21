@@ -3,6 +3,7 @@ package basics
 import (
 	"fmt"
 	"math"
+	"strconv"
 )
 
 func TestMethodsAndInterfaces() {
@@ -157,6 +158,17 @@ func interfaces() {
 	a := Person{"Arthur Dent", 42}
 	z := Person{"Zaphod Beeblebrox", 9001}
 	fmt.Println(a, z)
+
+	/*
+	Błędy w Go to wartości typu error. Typ error jest wbudowanym interfejsem podobnym do fmt.Stringer
+	Funkcje często zwracają wartość error, a kod wywołujący funkcję powinien obsłużyć błąd, testując czy error jest równy nil.
+	*/
+	i6, err := strconv.Atoi("42")
+	if err != nil {
+    fmt.Printf("couldn't convert number: %v\n", err)
+		return
+	}
+	fmt.Println("Converted integer:", i6)
 }
 
 type Person struct {
