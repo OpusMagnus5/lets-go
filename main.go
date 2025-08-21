@@ -38,4 +38,5 @@ func main() {
 	basics.TestStructures()
 	basics.TestMethodsAndInterfaces()
 	basics.TestGenerics()
+	basics.TestConcurrency()
 }
