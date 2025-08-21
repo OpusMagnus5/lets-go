@@ -88,6 +88,14 @@ func arrays() {
 
 	primes := [6]int{2, 3, 5, 7, 11, 13}
 	fmt.Println(primes)
+
+	// Można również zlecić kompilatorowi policzenie liczby elementów za pomocą ...
+	b := [...]int{1, 2, 3, 4, 5}
+    fmt.Println("dcl:", b)
+
+	// Jeśli określisz indeks za pomocą :, elementy pomiędzy nimi zostaną wyzerowane.
+	b = [...]int{100, 3: 400, 500}
+    fmt.Println("idx:", b) //idx: [100 0 0 400 500]
 }
 
 /*
