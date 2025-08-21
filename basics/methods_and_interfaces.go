@@ -117,5 +117,54 @@ func interfaces() {
 	var t2 *T
 	var i2 I2 = t2
 	i2.m2()
+
+	/*
+	Sprawdzanie typu pozwala uzyskać dostęp do wartości o konkretnym typie która jest zawarta w interfejsie.
+	Instrukcja pniżej zakłada że wartość interfejsu i zawiera konkretny typ T oraz przypisuje konkretną wartość interfejsu o typie T zmiennej t.
+	Jeśli i nie zawiera typu T, instrukcja ta spowoduje wywołanie paniki (ang. panic).
+	*/
+	var hello interface{} = "hello"
+
+	s := hello.(string)
+	fmt.Println(s)
+
+	/*
+	By przetestować czy interfejs zawiera wartość konkretnego typu, sprawdzenie typu może zwrócić dwie wartości: 
+	wartość zawartą w interfejsie oraz wartość typu bool która określa czy sprawdzenie typu dało wynik pozytywny.
+	Jeśli i zawiera typ T, wtedy t będzie wartością zawartą w interfejsie a ok będzie miało wartość true.
+	W przeciwnym wypadku, ok będzie miało wartość false, a t będzie miało wartością zerową typu T, zaś panika (ang. panic) nie zostanie wywołana.
+	*/
+	s, ok := hello.(string)
+	fmt.Println(s, ok)
+
+	/*
+	Switch typów jest konstrukcją który pozwala dokonać kilku sprawdzeń typów po kolei.
+	*/
+	switch v := hello.(type) {
+	case int:
+		fmt.Printf("Twice %v is %v\n", v, v*2)
+	case string:
+		fmt.Printf("%q is %v bytes long\n", v, len(v))
+	default:
+		fmt.Printf("I don't know about type %T!\n", v)
+	}
+
+	/*
+	Jednym z najbardziej wszechobecnym interfejsów jest Stringer zdefiniowany przez pakiet fmt.
+	Stringer jest typem który może przedstawić samego siebie jako string. Pakiet fmt (i wiele innych) używa tego interfejsu by wypisywać wartości.
+	*/
+
+	a := Person{"Arthur Dent", 42}
+	z := Person{"Zaphod Beeblebrox", 9001}
+	fmt.Println(a, z)
+}
+
+type Person struct {
+	Name string
+	Age  int
+}
+
+func (p Person) String() string {
+	return fmt.Sprintf("%v (%v years)", p.Name, p.Age)
 }
 
