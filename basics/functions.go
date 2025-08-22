@@ -2,7 +2,7 @@ package basics
 
 import "fmt"
 
-/* 
+/*
  Funkcja może przyjąć zero lub więcej argumentów.
  Typ podany jest po nazwie zmiennej
 */
@@ -41,6 +41,19 @@ func split(sum int) (x, y int) { // tu jest deklaracja zmiennych a w funkcji są
 	return
 }
 
+/*
+Variadic Functions mogą być wywoływane z dowolną liczbą argumentów końcowych.
+Wewnątrz funkcji typ nums jest równoważny []int. Możemy wywołać len(nums), iterować po nim za pomocą range, itp.
+*/
+func sum2(nums ...int) {
+    fmt.Print(nums, " ")
+    total := 0
+	for _, num := range nums {
+        total += num
+    }
+    fmt.Println(total)
+}
+
 func TestFunctions() {
 	fmt.Println("--functions------------------------------------------------------------------------------------------")
 	fmt.Println("add: ", add(42, 13))
@@ -51,4 +64,8 @@ func TestFunctions() {
 
 	split1, split2 := split(17)
 	fmt.Println("split: ", split1, split2)
+
+	sum2(1, 2) // Variadic Functions mogą być wywoływane w zwykły sposób z indywidualnymi argumentami.
+	nums := []int{1, 2, 3, 4}
+	sum2(nums...) // Jeśli masz już wiele argumentów w wycinku, zastosuj je do funkcji variadic za pomocą func(slice...) w następujący sposób.
 }
