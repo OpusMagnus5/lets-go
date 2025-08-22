@@ -238,6 +238,10 @@ func slices() {
 	// Możemy dodać więcej niż jeden element w danym czasie.
 	s5 = append(s5, 2, 3, 4)
 	printSlice(s5)
+
+	// Mozemy kopiować wycinek za pomocą wbudowanej funkcji copy
+	c := make([]int, len(s5))
+	copy(c, s5)
 }
 
 
