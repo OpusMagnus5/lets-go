@@ -15,6 +15,7 @@ func TestStructures() {
 	ranges()
 	maps()
 	functionAsValue()
+	enums()
 }
 
 /*
@@ -335,4 +336,56 @@ func compute(fn func(float64, float64) float64) float64 {
 
 func printSlice(s []int) {
 	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+
+/*
+Go nie ma typu wyliczeniowego jako odrębnej funkcji językowej, ale wyliczenia są łatwe do zaimplementowania przy użyciu istniejących idiomów językowych.
+Typ wyliczeniowy ServerState ma bazowy typ int,
+Możliwe wartości dla ServerState są zdefiniowane jako stałe. 
+Specjalne słowo kluczowe iota automatycznie generuje kolejne stałe wartości; w tym przypadku 0, 1, 2 i tak dalej.
+*/
+
+func enums() {
+    ns := transition(StateIdle)
+    fmt.Println(ns)
+		
+    ns2 := transition(ns)
+    fmt.Println(ns2)
+}
+
+type ServerState int
+
+const (
+    StateIdle ServerState = iota
+    StateConnected
+    StateError
+    StateRetrying
+)
+
+/*
+Implementując interfejs fmt.Stringer, wartości ServerState mogą być drukowane lub konwertowane na ciągi znaków.
+*/
+var stateName = map[ServerState]string{
+    StateIdle:      "idle",
+    StateConnected: "connected",
+    StateError:     "error",
+    StateRetrying:  "retrying",
+}
+
+	
+func (ss ServerState) String() string {
+    return stateName[ss]
+}
+
+func transition(s ServerState) ServerState {
+    switch s {
+    case StateIdle:
+        return StateConnected
+    case StateConnected, StateRetrying:
+		        return StateIdle
+    case StateError:
+        return StateError
+    default:
+        panic(fmt.Errorf("unknown state: %s", s))
+    }
 }
