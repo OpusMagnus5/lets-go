@@ -310,6 +310,7 @@ func functionAsValue() {
 	/*
 	Domknięcia funkcji (ang. function closures)
 	Funkcje w Go mogą być domknięciami. Domknięcie to funkcjia będąca wartością która odnosi się do zmiennych znajdujących się poza jej ciałem.
+	Domknięcia mogą odczytywać i modyfikować zmienne znajdujące się poza ich ciałem, przypisane do konkretnych instancji funkcji.
 	*/
 	pos, neg := adder(), adder()
 	for i := 0; i < 10; i++ {
