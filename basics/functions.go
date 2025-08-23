@@ -1,6 +1,9 @@
 package basics
 
-import "fmt"
+import (
+	"fmt"
+	"iter"
+)
 
 /*
  Funkcja może przyjąć zero lub więcej argumentów.
@@ -68,4 +71,20 @@ func TestFunctions() {
 	sum2(1, 2) // Variadic Functions mogą być wywoływane w zwykły sposób z indywidualnymi argumentami.
 	nums := []int{1, 2, 3, 4}
 	sum2(nums...) // Jeśli masz już wiele argumentów w wycinku, zastosuj je do funkcji variadic za pomocą func(slice...) w następujący sposób.
+
+	CountTo10()
+}
+
+/*
+Funkcja iteratora przyjmuje jako parametr inną funkcję, zwaną umownie yield (ale nazwa może być dowolna). 
+Wywoła ona yield dla każdego elementu, nad którym chcemy iterować, i zanotuje wartość zwracaną yield dla potencjalnego wcześniejszego zakończenia.
+*/
+func CountTo10() iter.Seq[int] {
+	return func(yield func(int) bool) {
+		for i := 0; i < 10; i++ {
+			if !yield(i) { // próbujemy oddać wartość
+				return       // ktoś już nie chce, więc kończymy
+			}
+		}
+	}
 }
