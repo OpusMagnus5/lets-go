@@ -36,6 +36,14 @@ func pointers() {
 	p = &j         // wskaźnik do j
 	*p = *p / 37   // podziel j za pomocą wskaźnika
 	fmt.Println("Wartość j: ", j) // zobacz nowa wartość j
+
+	// Wskaźnik może być również wskaźnikiem do wskaźnika
+	p2 := new(*string)
+	*p2 = new(string)
+	fmt.Println(**p2)
+
+	**p2 = "is this even possible?"
+	fmt.Println(**p2)
 }
 
 /*
