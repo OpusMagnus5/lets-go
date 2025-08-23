@@ -16,6 +16,7 @@ func TestStructures() {
 	maps()
 	functionAsValue()
 	enums()
+	embedding()
 }
 
 /*
@@ -388,4 +389,35 @@ func transition(s ServerState) ServerState {
     default:
         panic(fmt.Errorf("unknown state: %s", s))
     }
+}
+
+type base struct {
+    num int
+}
+
+type container struct {
+    base // struktura zagnieżdżona podając tylko nazwę typu ale można też użyć nazwy pola, ale wtedy metody nie będą promowane
+    str string
+}
+
+func (b base) describe() string {
+	return fmt.Sprintf("base with num=%v", b.num)
+}
+
+func embedding() {
+	/*
+	
+	Go obsługuje osadzanie struktur i interfejsów, aby wyrazić bardziej płynną kompozycję typów.
+	*/
+	co := container{
+        base: base{
+            num: 1,
+        },
+        str: "some name",
+    }
+
+	fmt.Printf("co={num: %v, str: %v}\n", co.num, co.str) // Do pól bazy możemy uzyskać bezpośredni dostęp
+	fmt.Println("also num:", co.base.num) // Alternatywnie, możemy przeliterować pełną ścieżkę używając osadzonej nazwy typu.
+	// Ponieważ kontener osadza bazę, metody bazy stają się również metodami kontenera. Tutaj wywołujemy metodę, która została osadzona z bazy bezpośrednio na co.
+	fmt.Println("describe:", co.describe())
 }
