@@ -15,6 +15,7 @@ import (
 	"fmt"
 	"lets-go/basics"
 	"math"
+	"lets-go/hyperskill"
 )
 
 /*
@@ -39,4 +40,5 @@ func main() {
 	basics.TestMethodsAndInterfaces()
 	basics.TestGenerics()
 	basics.TestConcurrency()
+	hyperskill.Practice()
 }
