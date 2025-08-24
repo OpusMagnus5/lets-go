@@ -177,3 +177,25 @@ func worketTest() {
 	// Block until we receive a notification from the worker on the channel.
 	<-done
 }
+
+/*
+Używając kanałów jako parametrów funkcji, można określić, czy kanał jest przeznaczony tylko do wysyłania lub odbierania wartości. 
+Ta specyfika zwiększa bezpieczeństwo typu programu.
+*/
+func ping(pings chan<- string, msg string) { // Funkcja ping akceptuje tylko kanał do wysyłania wartości
+    pings <- msg
+}
+
+func pong(pings <-chan string, pongs chan<- string) { // Funkcja pong akceptuje jeden kanał do odbioru i drugi dla wysyłania
+    msg := <-pings
+    pongs <- msg
+}
+
+	
+func channelDirections() {
+    pings := make(chan string, 1)
+    pongs := make(chan string, 1)
+    ping(pings, "passed message")
+    pong(pings, pongs)
+    fmt.Println(<-pongs)
+}
