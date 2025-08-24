@@ -155,3 +155,25 @@ func (c *SafeCounter) Value(key string) int {
 	defer c.mu.Unlock()
 	return c.v[key]
 }
+
+/*
+Możemy użyć kanałów do synchronizacji wykonywania między goroutines.
+W przypadku oczekiwania na zakończenie wielu goroutines, lepiej jest użyć WaitGroup.
+*/
+func worker(done chan bool) {
+    fmt.Print("working...")
+    time.Sleep(time.Second)
+    fmt.Println("done")
+		
+    done <- true
+}
+
+func worketTest() {
+
+	// Start a worker goroutine, giving it the channel to notify on.
+	done := make(chan bool, 1)
+	go worker(done)
+
+	// Block until we receive a notification from the worker on the channel.
+	<-done
+}
