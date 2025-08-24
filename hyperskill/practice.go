@@ -6,5 +6,8 @@ import (
 
 func Practice() {
 	fmt.Println("--Hyperskill Practice--------------------------------------------------------------------------------")
-	
+	main()
+}
+
+func main() {
 }
