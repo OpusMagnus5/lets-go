@@ -250,3 +250,36 @@ func rangeOverChannels() {
 		fmt.Println(elem)
 	}
 }
+
+/*
+Często chcemy wykonać kod Go w pewnym momencie w przyszłości lub wielokrotnie w pewnych odstępach czasu. 
+Wbudowane w Go funkcje timera i tickera ułatwiają oba te zadania.
+*/
+
+func testTimers() {
+
+	/*
+	Timery reprezentują pojedyncze zdarzenie w przyszłości. Mówisz timerowi, 
+	jak długo chcesz czekać, a on zapewnia kanał, który zostanie powiadomiony w tym czasie. Ten timer będzie czekał 2 sekundy.
+	*/
+	timer1 := time.NewTimer(2 * time.Second)
+
+	<-timer1.C // <-timer1.C blokuje się na kanale C timera, dopóki nie wyśle wartości wskazującej, że timer został uruchomiony.
+	fmt.Println("Timer 1 fired")
+
+	/*
+	Jeśli chciałeś tylko poczekać, mogłeś użyć time.Sleep. 
+	Jednym z powodów, dla których timer może być przydatny, jest możliwość anulowania timera przed jego uruchomieniem. Oto przykład.
+	*/
+	timer2 := time.NewTimer(time.Second)
+	go func() {
+		<-timer2.C
+		fmt.Println("Timer 2 fired")
+	}()
+	stop2 := timer2.Stop()
+	if stop2 {
+		fmt.Println("Timer 2 stopped")
+	}
+
+	time.Sleep(2 * time.Second)
+}
