@@ -249,7 +249,11 @@ func slices() {
 	s5 = append(s5, 2, 3, 4)
 	printSlice(s5)
 
-	// Mozemy kopiować wycinek za pomocą wbudowanej funkcji copy
+	/*
+	Mozemy kopiować wycinek za pomocą wbudowanej funkcji copy
+	Funkcja kopiowania została zbudowana w taki sposób, że kopiuje tylko dostępne elementy do dostępnych miejsc. 
+	Oznacza to, że jeśli skopiujesz wycinek o długości 3 do wycinka o długości 0, funkcja nie skopiuje niczego:
+	*/
 	c := make([]int, len(s5))
 	copy(c, s5)
 }
