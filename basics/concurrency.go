@@ -234,3 +234,19 @@ func testTimeouts() {
 		fmt.Println("timeout 2")
 	}
 }
+
+/*
+Iterate over 2 values in the queue channel.
+Ten zakres iteruje po każdym elemencie odebranym z kolejki. Ponieważ zamknęliśmy kanał powyżej, iteracja kończy się po otrzymaniu 2 elementów.
+Ten przykład pokazaje również, że możliwe jest zamknięcie niepustego kanału, ale pozostałe wartości nadal będą odbierane.
+*/
+func rangeOverChannels() {
+	queue := make(chan string, 2)
+	queue <- "one"
+	queue <- "two"
+	close(queue)
+
+	for elem := range queue {
+		fmt.Println(elem)
+	}
+}
