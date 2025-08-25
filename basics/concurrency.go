@@ -283,3 +283,37 @@ func testTimers() {
 
 	time.Sleep(2 * time.Second)
 }
+
+/*
+
+Timery są przeznaczone do robienia czegoś raz w przyszłości - tickery są przeznaczone do robienia czegoś wielokrotnie 
+w regularnych odstępach czasu. Oto przykład tickera, który tyka cyklicznie, dopóki go nie zatrzymamy.
+*/
+func testTickers() {
+	/*
+	Tickery używają mechanizmu podobnego do timerów: kanału, do którego wysyłane są wartości. 
+	W tym przypadku użyjemy wbudowanej funkcji select na kanale, aby oczekiwać na wartości przychodzące co 500 ms.
+	*/
+	ticker := time.NewTicker(500 * time.Millisecond)
+	done := make(chan bool)
+
+	go func() {
+		for {
+			select {
+			case <-done:
+				return
+			case t := <-ticker.C:
+				fmt.Println("Tick at", t)
+			}
+		}
+	}()
+
+	/*
+	Tickery mogą być zatrzymywane podobnie jak timery. 
+	Gdy ticker zostanie zatrzymany, nie będzie już odbierać żadnych wartości na swoim kanale. Zatrzymamy nasz po 1600 ms.
+	*/
+	time.Sleep(1600 * time.Millisecond)
+	ticker.Stop()
+	done <- true
+	fmt.Println("Ticker stopped")
+}
