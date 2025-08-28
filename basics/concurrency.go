@@ -317,3 +317,39 @@ func testTickers() {
 	done <- true
 	fmt.Println("Ticker stopped")
 }
+
+/*
+Workery będą odbierać pracę na kanale zadań i wysyłać odpowiednie wyniki na kanale wyników.
+*/
+func worker2(id int, jobs <-chan int, results chan<- int) {
+    for j := range jobs {
+        fmt.Println("worker", id, "started  job", j)
+        time.Sleep(time.Second)
+        fmt.Println("worker", id, "finished job", j)
+        results <- j * 2
+    }
+}
+
+func testWorkerPools() {
+	// Aby korzystać z naszej puli pracowników, musimy wysyłać im zadania i zbierać ich wyniki. W tym celu tworzymy 2 kanały.
+	const numJobs = 5
+	jobs := make(chan int, numJobs)
+	results := make(chan int, numJobs)
+
+	// Uruchomiamy 3 pracowników, początkowo zablokowanych, ponieważ nie ma jeszcze żadnych zadań.
+	for w := 1; w <= 3; w++ {
+		go worker2(w, jobs, results)
+	}
+
+	// Wysyłamy 5 zadań, a następnie zamykamy ten kanał, aby wskazać, że to wszystkie zadania, które mamy.
+	for j := 1; j <= numJobs; j++ {
+		jobs <- j
+	}
+	close(jobs)
+
+	// Na koniec zbieramy wszystkie wyniki pracy. Zapewnia to również, że goroutines worker zostały zakończone. 
+	// Alternatywnym sposobem oczekiwania na wiele goroutines jest użycie WaitGroup.
+	for a := 1; a <= numJobs; a++ {
+		<-results
+	}
+}
