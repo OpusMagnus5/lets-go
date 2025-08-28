@@ -353,3 +353,35 @@ func testWorkerPools() {
 		<-results
 	}
 }
+
+// Jest to funkcja, którą będziemy uruchamiać w każdym goroutine
+func worker3(id int) {
+	fmt.Printf("Worker %d starting\n", id)
+
+	time.Sleep(time.Second)
+	fmt.Printf("Worker %d done\n", id)
+}
+
+
+// Aby poczekać na zakończenie wielu goroutinów, możemy użyć wait group.
+func testWaitGroups() {
+	/*
+	Ta grupa WaitGroup jest używana do oczekiwania na zakończenie wszystkich uruchomionych tutaj goroutines. 
+	Uwaga: jeśli WaitGroup jest jawnie przekazywana do funkcji, powinno się to odbywać za pomocą wskaźnika.
+	*/
+	var wg sync.WaitGroup
+
+	for i := 1; i <= 5; i++ {
+		wg.Go(func() { // Uruchomienie kilku goroutines przy użyciu WaitGroup.Go
+			worker3(i)
+		})
+	}
+
+	// Blokuj, aż wszystkie goroutines uruchomione przez wg zostaną wykonane. Goroutine jest zakończony, gdy funkcja, którą wywołuje, powraca.
+	wg.Wait()
+
+	/*
+	Należy zauważyć, że to podejście nie ma prostego sposobu na propagowanie błędów z workerów. 
+	W przypadku bardziej zaawansowanych przypadków użycia należy rozważyć użycie pakietu errgroup.
+	*/
+}
