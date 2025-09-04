@@ -61,6 +61,29 @@ type Vertex struct {
 	Y int
 }
 
+// Anonymous structs bez definiowania typu
+var teslaModelS = struct {
+    Brand, Model, Color string
+    weightInKg          int
+}{
+    Brand:      "Tesla",
+    Model:      "Model S",
+    Color:      "Red",
+    weightInKg: 2250,
+}
+
+/* 
+Go pozwala na dodanie tagów do pól struktury, które są przechowywane jako część definicji pola.
+Tagi są zwykle używane do przechowywania informacji o tym jak pole powinno być zakodowane/odkodowane w formatach takich jak JSON lub XML.
+*/
+type User struct {
+                        // this column has the struct tags
+    UserID    string    `json:"userID"`
+    IsActive  bool      `json:"isActive"`
+    LastLogin time.Time `json:"lastLogin"`
+    UserType  int       `json:"userType"`
+}
+
 func structs() {
 	v := Vertex{1, 2}
 	fmt.Println("Nowy strucy Vertex: ", v)
