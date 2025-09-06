@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 	"sync"
+    "sync/atomic"
 )
 
 func TestConcurrency() {
@@ -435,4 +436,30 @@ func testRateLimiting() {
 		<-burstyLimiter
 		fmt.Println("request", req, time.Now())
 	}
+}
+
+func testCounters() {
+	// Użyjemy atomowego typu całkowitoliczbowego do reprezentowania naszego (zawsze dodatniego) licznika.
+	var ops atomic.Uint64
+
+	// WaitGroup pomoże nam poczekać, aż wszystkie goroutines zakończą swoją pracę.
+	var wg sync.WaitGroup
+
+	// Uruchomimy 50 procedur, z których każda zwiększy licznik dokładnie 1000 razy.
+	for range 50 {
+        wg.Add(1)
+        go func() {
+            for range 1000 {
+				// Do atomowej inkrementacji licznika używamy funkcji Add.
+				ops.Add(1)
+            }
+            wg.Done()
+        }()
+    }
+
+	// Poczekaj, aż wszystkie goroutines zostaną wykonane.
+	 wg.Wait()
+
+	 // Tutaj żadne goroutines nie zapisują do 'ops', ale używając Load można bezpiecznie atomowo odczytać wartość, nawet gdy inne goroutines (atomowo) ją aktualizują.
+	 fmt.Println("ops:", ops.Load())
 }
