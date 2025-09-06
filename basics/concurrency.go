@@ -385,3 +385,54 @@ func testWaitGroups() {
 	W przypadku bardziej zaawansowanych przypadków użycia należy rozważyć użycie pakietu errgroup.
 	*/
 }
+
+/*
+Rate limiting jest ważnym mechanizmem kontrolowania wykorzystania zasobów i utrzymywania jakości usług. 
+Go obsługuje ograniczanie szybkości za pomocą goroutines, kanałów i tickerów.
+*/
+func testRateLimiting() {
+	// Załóżmy, że chcemy ograniczyć obsługę przychodzących żądań. Będziemy obsługiwać te żądania z kanału o tej samej nazwie.
+	requests := make(chan int, 5)
+	for i := 1; i <= 5; i++ {
+		requests <- i
+	}
+	close(requests)
+
+	// Ten kanał ogranicznika będzie otrzymywał wartość co 200 milisekund. Jest to regulator w naszym schemacie ograniczania szybkości.
+	limiter := time.Tick(200 * time.Millisecond)
+
+	// Blokując odbiór z kanału ograniczającego przed obsłużeniem każdego żądania, ograniczamy się do 1 żądania co 200 milisekund.
+	for req := range requests {
+		<-limiter
+		fmt.Println("request", req, time.Now())
+	}
+
+	/*
+	Możemy chcieć zezwolić na krótkie serie żądań w naszym schemacie ograniczania szybkości przy jednoczesnym zachowaniu 
+	ogólnego limitu szybkości. Możemy to osiągnąć poprzez buforowanie naszego kanału ograniczającego. 
+	Ten kanał burstyLimiter pozwoli na serie do 3 zdarzeń.
+	*/
+	burstyLimiter := make(chan time.Time, 3)
+
+	for range 3 {
+		burstyLimiter <- time.Now()
+	}
+
+	// Co 200 milisekund będziemy próbowali dodać nową wartość do burstyLimiter, aż do limitu 3.
+	go func() {
+		for t := range time.Tick(200 * time.Millisecond) {
+			burstyLimiter <- t
+		}
+	}()
+
+	// Teraz zasymuluj 5 kolejnych żądań przychodzących. Pierwsze 3 z nich skorzystają z możliwości burst burstyLimiter.
+	burstyRequests := make(chan int, 5)
+	for i := 1; i <= 5; i++ {
+		burstyRequests <- i
+	}
+	close(burstyRequests)
+	for req := range burstyRequests {
+		<-burstyLimiter
+		fmt.Println("request", req, time.Now())
+	}
+}
